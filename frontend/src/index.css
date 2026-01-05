@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+.my-custom-icon {
+    
+    
+    font-variation-settings: 
+      'FILL' 1,    
+      'wght' 700,  
+      'opsz' 48;   
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-calendar-icon::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+/* MAIN CONTAINER */
+.react-calendar {
+  width: 210px !important;   /* increased a bit */
+  font-size: 10px;
+  border-radius: 8px;
+  padding: 6px;              /* keeps arrows inside */
+  box-sizing: border-box;
+}
+
+/* NAVIGATION BAR */
+.react-calendar__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+/* NAV BUTTONS */
+.react-calendar__navigation button {
+  font-size: 10px;
+  padding: 2px 5px;
+  min-width: unset !important;
+}
+
+/* MONTH LABEL */
+.react-calendar__navigation__label {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* WEEKDAY HEADERS */
+.react-calendar__month-view__weekdays {
+  font-size: 9px;
+}
+
+/* DAY GRID */
+.react-calendar__month-view__days {
+  gap: 0;
+}
+
+/* DAY TILES */
+.react-calendar__tile {
+  min-width: 24px !important;
+  height: 26px;
+  padding: 1px;
+  font-size: 9px;
+}
+
+/* ACTIVE DAY */
+.react-calendar__tile--active {
+  background: #2563eb;
+  color: white;
+  border-radius: 5px;
+}
+
+
