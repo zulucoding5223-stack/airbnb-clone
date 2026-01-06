@@ -21,10 +21,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* ================= MIDDLEWARE ================= */
 app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
+  cors()
 );
 
 app.use(helmet());
