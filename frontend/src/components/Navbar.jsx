@@ -6,8 +6,9 @@ import { FaGlobe } from "react-icons/fa6";
 import { TbMenu2 } from "react-icons/tb";
 import { IoPerson } from "react-icons/io5";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import HomepageInput from "./HomepageInput";
+import HomepageInput from "../components/homepageComponents/HomepageInput";
 import { AppContext } from "../utils/AppContextProvider";
+
 
 const Navbar = () => {
   const location = useLocation();

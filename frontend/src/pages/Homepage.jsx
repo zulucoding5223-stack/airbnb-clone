@@ -1,17 +1,17 @@
 import React, { useContext } from 'react'
-import Navbar from '../components/Navbar'
-import HomepageInput from '../components/HomepageInput'
-import Banner from '../components/Banner'
-import InspirationHomeComponent from '../components/InspirationHomeComponent'
-import DiscoverHomeComponent from '../components/DiscoverHomeComponent'
-import BnbGiftCards from '../components/BnbGiftCards'
-import QuestionsHomepage from '../components/QuestionsHomepage'
-import Inspirations from '../components/Inspirations'
-import Footer from '../components/Footer'
-import { AppContext } from '../utils/AppContextProvider'
+
+
+import Navbar from '../components/Navbar';
+import HomepageInput from '../components/homepageComponents/HomepageInput';
+import Banner from '../components/homepageComponents/Banner';
+import InspirationHomeComponent from '../components/homepageComponents/InspirationHomeComponent';
+import DiscoverHomeComponent from '../components/homepageComponents/DiscoverHomeComponent';
+import BnbGiftCards from '../components/homepageComponents/BnbGiftCards';
+import QuestionsHomepage from '../components/homepageComponents/QuestionsHomepage';
+import Inspirations from '../components/homepageComponents/Inspirations';
+import Footer from '../components/Footer';
 
 const Homepage = () => {
-  const {user} = useContext(AppContext);
   return (
     <div>
       <div className='bg-black'>
@@ -20,7 +20,7 @@ const Homepage = () => {
         <Banner />
       </div>
       <div>
-        <InspirationHomeComponent/>
+       <InspirationHomeComponent/>
         <DiscoverHomeComponent />
         <BnbGiftCards />
         <QuestionsHomepage />

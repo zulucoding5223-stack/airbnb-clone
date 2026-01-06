@@ -12,7 +12,6 @@ const Reservation = () => {
       try {
         const response = await api.get("/reservations/get-reservations");
         setReservations(response.data.reservations);
-        console.log(response.data.reservations);
         setIsLoading(false);
       } catch (error) {
         const message =

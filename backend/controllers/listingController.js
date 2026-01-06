@@ -1,21 +1,23 @@
 import listingModel from "../models/listingSchema.js";
 import userModel from "../models/userSchema.js";
 
+/* ================= CREATE LISTING ================= */
 export const createListing = async (req, res) => {
   try {
     const hostId = req.user.id;
-    const host = await userModel.findById(hostId);
 
+    const host = await userModel.findById(hostId);
     if (!host) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Host not found." });
+      return res.status(404).json({
+        success: false,
+        message: "Host not found.",
+      });
     }
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "No images added. Please upload at least 1 image.",
+        message: "Please upload at least one image.",
       });
     }
 
@@ -51,25 +53,29 @@ export const createListing = async (req, res) => {
       !serviceFee ||
       !occupancyFee ||
       !weeklyDiscount ||
-      !price 
+      !price
     ) {
       return res.status(403).json({
         success: false,
-        message: "Please fill in empty fields.",
+        message: "Please fill in all required fields.",
       });
     }
 
-    const parsedAmenities = JSON.parse(amenities || "[]");
+    let parsedAmenities = [];
+    try {
+      parsedAmenities = JSON.parse(amenities || "[]");
+    } catch {
+      parsedAmenities = [];
+    }
 
-    if (parsedAmenities.length === 0) {
+    if (!parsedAmenities.length) {
       return res.status(400).json({
         success: false,
         message: "Please add at least one amenity.",
       });
     }
 
-    const images = req.files;
-    const imagePaths = images.map((file) => file.filename);
+    const imagePaths = req.files.map((file) => file.filename);
 
     const newListing = await listingModel.create({
       host: host._id,
@@ -87,15 +93,21 @@ export const createListing = async (req, res) => {
       occupancyFee,
       weeklyDiscount,
       price,
+      ratings: 4.5,
+      reviews: 320,
       amenities: parsedAmenities,
       images: imagePaths,
       enhancedCleaning: enhancedCleaning === "true",
       selfCheckIn: selfCheckIn === "true",
     });
 
-    return res.status(201).json({ success: true, listings: newListing, message: 'Listing successfully created.' });
+    return res.status(201).json({
+      success: true,
+      listing: newListing,
+      message: "Listing successfully created.",
+    });
   } catch (error) {
-    console.error("Create Error:", error);
+    console.error(error);
     return res.status(500).json({
       success: false,
       message: "Internal server error during listing creation.",
@@ -103,23 +115,24 @@ export const createListing = async (req, res) => {
   }
 };
 
+/* ================= GET ALL LISTINGS ================= */
 export const getListings = async (req, res) => {
   try {
     const listings = await listingModel.find();
-    console.log(listings);
+
     return res.status(200).json({
       success: true,
-      data: listings,
+      listings,
     });
-  } catch (error) {
-    console.error("Error: ", error.message);
+  } catch {
     return res.status(500).json({
-      sucess: false,
+      success: false,
       message: "Internal server error when retrieving listings.",
     });
   }
 };
 
+/* ================= UPDATE LISTING ================= */
 export const updateListing = async (req, res) => {
   try {
     const hostId = req.user.id;
@@ -127,22 +140,23 @@ export const updateListing = async (req, res) => {
 
     const listing = await listingModel.findById(listingId);
     if (!listing) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Listing not found." });
+      return res.status(404).json({
+        success: false,
+        message: "Listing not found.",
+      });
     }
 
     if (String(listing.host) !== hostId) {
       return res.status(403).json({
         success: false,
-        message: "Unauthorized. You cannot update another user's listing.",
+        message: "You are not allowed to update this listing.",
       });
     }
 
     let updateData = {};
 
     for (const key in req.body) {
-      if (!["reviews", "amenities", "images"].includes(key)) {
+      if (!["amenities", "images"].includes(key)) {
         updateData[key] = req.body[key];
       }
     }
@@ -161,18 +175,6 @@ export const updateListing = async (req, res) => {
       }
     }
 
-    if (req.body.reviews !== undefined) {
-      if (req.body.reviews === "") {
-        updateData.reviews = [];
-      } else {
-        try {
-          updateData.reviews = JSON.parse(req.body.reviews);
-        } catch {
-          updateData.reviews = req.body.reviews.split(",").map((a) => a.trim());
-        }
-      }
-    }
-
     if (req.files && req.files.length > 0) {
       updateData.images = req.files.map((file) => file.filename);
     }
@@ -184,10 +186,10 @@ export const updateListing = async (req, res) => {
     return res.status(200).json({
       success: true,
       updatedListing,
-      message: 'Listing updated successfully.'
+      message: "Listing updated successfully.",
     });
   } catch (error) {
-    console.error("Update Error:", error);
+    console.error(error);
     return res.status(500).json({
       success: false,
       message: "Internal server error during listing update.",
@@ -195,55 +197,13 @@ export const updateListing = async (req, res) => {
   }
 };
 
-export const getHostListings = async (req, res) => {
-  try {
-    const hostId = req.user.id;
-    const host = await userModel.findById(hostId);
-    if (!host) {
-      return res.status(403).json({
-        success: false,
-        message: "Host not found. Please log in.",
-      });
-    }
-
-    const listings = await listingModel.find({ host: hostId });
-
-    if (!listings) {
-      return res.status(403).json({
-        success: false,
-        message: "Listings not found.",
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      listings,
-    });
-  } catch (error) {
-    console.error("Error: ", error.message);
-    return res.status(500).json({
-      sucess: false,
-      message: "Internal server error when fetching host listings.",
-    });
-  }
-};
-
+/* ================= GET SINGLE LISTING ================= */
 export const getListing = async (req, res) => {
   try {
-    const hostId = req.user.id;
-    const host = await userModel.findById(hostId);
-    const listingId = req.params.id;
-    if (!host) {
-      return res.status(403).json({
-        success: false,
-        message: "Host not found. Please log in.",
-      });
-    }
-
-    const listing = await listingModel.findById(listingId);
+    const listing = await listingModel.findById(req.params.id);
 
     if (!listing) {
-      return res.status(403).json({
+      return res.status(404).json({
         success: false,
         message: "Listing not found.",
       });
@@ -253,37 +213,46 @@ export const getListing = async (req, res) => {
       success: true,
       listing,
     });
-  } catch (error) {
-    console.error("Error: ", error.message);
+  } catch {
     return res.status(500).json({
-      sucess: false,
-      message: "Internal server error when fetching host listings.",
+      success: false,
+      message: "Internal server error when fetching listing.",
     });
   }
 };
 
+/* ================= DELETE LISTING ================= */
 export const deleteListing = async (req, res) => {
   try {
     const hostId = req.user.id;
     const listingId = req.params.id;
-    const host = await userModel.findById(hostId);
-    if (!host) {
+
+    const listing = await listingModel.findById(listingId);
+
+    if (!listing) {
       return res.status(404).json({
         success: false,
-        message: "Host not found.",
+        message: "Listing not found.",
       });
     }
 
-    await listingModel.findOneAndDelete({ _id: listingId });
+    if (String(listing.host) !== hostId) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to delete this listing.",
+      });
+    }
+
+    await listingModel.findByIdAndDelete(listingId);
+
     return res.status(200).json({
       success: true,
-      message: "Listing deleted.",
+      message: "Listing deleted successfully.",
     });
-  } catch (error) {
-    console.error("Error: ", error.message);
+  } catch {
     return res.status(500).json({
-      sucess: false,
-      message: "Internal server error when deleting a listing.",
+      success: false,
+      message: "Internal server error when deleting listing.",
     });
   }
 };

@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../utils/AppContextProvider";
+import { IoStarSharp } from "react-icons/io5";
 
 const Locations = () => {
   const { location: locationParam } = useParams();
-  console.log(locationParam);
   const [filterListing, setFilterListing] = useState([]);
   const { locations, isLoading, setIsLoading } = useContext(AppContext);
   const imageURL = "http://localhost:4000/uploads";
@@ -29,7 +29,6 @@ const Locations = () => {
     }
   }, [locations, locationParam]);
 
-  console.log(filterListing)
 
   const navigate = useNavigate();
 
@@ -90,15 +89,13 @@ const Locations = () => {
                       </div>
                     </div>
                     <div className="flex items-center ml-40 justify-between">
-                      <span>
-                        *{location.ratings} ({location.reviews.length} reviews)
+                      <span className="flex items-center gap-1">
+                        <IoStarSharp color="gold" size={"0.9rem"} />
+                        {location.ratings} ({location.reviews} reviews)
                       </span>
-                      <p className="relative mr-8">
+                      <p className="mr-8">
                         <span className="font-bold text-lg text-black">
-                          ${location.price}
-                        </span>
-                        <span className="absolute top-2 left-10">
-                          <span className="mr-1 ml-1">/</span>night
+                          ${location.price}<span className="mr-1 ml-1 text-gray-400 text-xs font-medium">/night</span>
                         </span>
                       </p>
                     </div>

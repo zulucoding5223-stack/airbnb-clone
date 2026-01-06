@@ -1,6 +1,12 @@
 import React from "react";
 import { IoStarSharp } from "react-icons/io5";
 const imageURL = "http://localhost:4000/uploads";
+import reviewsOne from '../../assets/reviews-1.webp';
+import reviewsTwo from '../../assets/reviews-2.webp';
+import reviewsThree from '../../assets/reviews-3.webp';
+import reviewsFour from '../../assets/reviews-4.webp';
+import reviewsFive from '../../assets/reviews-5.webp';
+import reviewsSix from '../../assets/reviews-6.webp';
 
 
 const ListingReviews = ({ selectedLocation }) => {
@@ -8,7 +14,7 @@ const ListingReviews = ({ selectedLocation }) => {
     <div>
       <div className="flex items-center text-sm font-bold">
         <IoStarSharp color="red" /> {selectedLocation.ratings} -{" "}
-        {selectedLocation.reviews.length} reviews
+        {selectedLocation.reviews} reviews
       </div>
       <div className="pt-5 flex items-center justify-between text-xs">
         <ul className="flex gap-1 flex-col">
@@ -55,8 +61,8 @@ const ListingReviews = ({ selectedLocation }) => {
           <li>
             <div className="flex items-center flex-row gap-2">
               <img
-                src={`${imageURL}/${selectedLocation.images[0]}`}
-                alt=""
+                src={reviewsOne}
+                alt="review-1-profile"
                 className="object-cover h-12 w-12 rounded-full"
               />
               <div className="flex items-start flex-col">
@@ -71,33 +77,33 @@ const ListingReviews = ({ selectedLocation }) => {
           <li>
             <div className="flex items-center flex-row gap-2">
               <img
-                src={`${imageURL}/${selectedLocation.images[1]}`}
-                alt=""
+                src={reviewsTwo}
+                alt="review-2-profile"
                 className="object-cover h-12 w-12 rounded-full"
               />
               <div className="flex items-start flex-col">
-                <p className="font-bold">Alice</p>
-                <p className="text-gray-500">March 2025</p>
+                <p className="font-bold">Julia</p>
+                <p className="text-gray-500">December 2024</p>
               </div>
             </div>
             <p className="text-xs pt-3 pb-4">
-              Amazing place, very clean and well-located
+              Beautiful location. I was very happy
             </p>
           </li>
           <li>
             <div className="flex items-center flex-row gap-2">
               <img
-                src={`${imageURL}/${selectedLocation.images[0]}`}
-                alt=""
+                src={reviewsThree}
+                alt="review-3-profile"
                 className="object-cover h-12 w-12 rounded-full"
               />
               <div className="flex items-start flex-col">
-                <p className="font-bold">Alice</p>
-                <p className="text-gray-500">March 2025</p>
+                <p className="font-bold">Lucy</p>
+                <p className="text-gray-500">April 2024</p>
               </div>
             </div>
             <p className="text-xs pt-3 pb-4">
-              Amazing place, very clean and well-located
+              A wonderful place to be. I highly recommend it.
             </p>
           </li>
         </ul>
@@ -105,49 +111,49 @@ const ListingReviews = ({ selectedLocation }) => {
           <li>
             <div className="flex items-center flex-row gap-2">
               <img
-                src={`${imageURL}/${selectedLocation.images[0]}`}
-                alt=""
+                src={reviewsFour}
+                alt="review-4-profile"
                 className="object-cover h-12 w-12 rounded-full"
               />
               <div className="flex items-start flex-col">
-                <p className="font-bold">Alice</p>
+                <p className="font-bold">Jack</p>
                 <p className="text-gray-500">March 2025</p>
               </div>
             </div>
             <p className="text-xs pt-3 pb-4">
-              Amazing place, very clean and well-located
+              The best airbnb I have ever been at.
             </p>
           </li>
           <li>
             <div className="flex items-center flex-row gap-2">
               <img
-                src={`${imageURL}/${selectedLocation.images[0]}`}
-                alt=""
+                src={reviewsFive}
+                alt="review-5-profile"
                 className="object-cover h-12 w-12 rounded-full"
               />
               <div className="flex items-start flex-col">
-                <p className="font-bold">Alice</p>
-                <p className="text-gray-500">March 2025</p>
+                <p className="font-bold">Fred</p>
+                <p className="text-gray-500">October 2024</p>
               </div>
             </div>
             <p className="text-xs pt-3 pb-4">
-              Amazing place, very clean and well-located
+              If you want a clean airbnb, go to this one.
             </p>
           </li>
           <li>
             <div className="flex items-center flex-row gap-2">
               <img
-                src={`${imageURL}/${selectedLocation.images[0]}`}
-                alt=""
+                src={reviewsSix}
+                alt="review-6-profile"
                 className="object-cover h-12 w-12 rounded-full"
               />
               <div className="flex items-start flex-col">
-                <p className="font-bold">Alice</p>
-                <p className="text-gray-500">March 2025</p>
+                <p className="font-bold">James</p>
+                <p className="text-gray-500">January 2025</p>
               </div>
             </div>
             <p className="text-xs pt-3 pb-4">
-              Amazing place, very clean and well-located
+              If you want a holiday getaway. Come here.
             </p>
           </li>
         </ul>

@@ -4,7 +4,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-calendar/dist/Calendar.css";
 import { IoStarSharp } from "react-icons/io5";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { AppContext } from "../../utils/AppContextProvider";
 import api from "../../utils/axios";
 
 const ListingCalculator = ({ selectedLocation }) => {
@@ -16,7 +15,6 @@ const ListingCalculator = ({ selectedLocation }) => {
   const [baseTotal, setBaseTotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const guestsNumbers = [1, 2, 3, 4, 5, 6];
-  const { user } = useContext(AppContext);
 
   const calculateNights = (checkIn, checkOut) => {
     if (!checkIn || !checkOut) return 0;
@@ -49,7 +47,13 @@ const ListingCalculator = ({ selectedLocation }) => {
     const endDate = new Date(checkOut);
 
     while (startDate < endDate) {
-      if (startDate.getDay() === 0 || startDate.getDay() === 6) {
+      if (
+        startDate.getDay() === 1 ||
+        startDate.getDay() === 2 ||
+        startDate.getDay() === 3 ||
+        startDate.getDay() === 4 ||
+        startDate.getDay() === 5
+      ) {
         total = total - weeklyDiscount;
       }
 
@@ -80,7 +84,6 @@ const ListingCalculator = ({ selectedLocation }) => {
     );
     setGrandTotal(grandT);
   }, [checkIn, checkOut, baseTotal, guests]);
-  console.log(selectedLocation._id);
 
   const createReservation = async () => {
     try {
@@ -89,7 +92,6 @@ const ListingCalculator = ({ selectedLocation }) => {
         checkOut,
         listingId: selectedLocation._id,
       });
-      console.log(response);
 
       alert("Reservation successfully created.");
     } catch (error) {
@@ -111,7 +113,7 @@ const ListingCalculator = ({ selectedLocation }) => {
               <IoStarSharp />
             </span>
             <span className="mx-1">{selectedLocation.ratings}</span>
-            <span>({selectedLocation.reviews.length})</span>
+            <span>({selectedLocation.reviews})</span>
           </p>
         </div>
         <div className="w-full border border-gray-400 rounded-lg mt-2.5">

@@ -3,8 +3,7 @@ import { FaMedal } from "react-icons/fa";
 import { IoStarSharp } from "react-icons/io5";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import airbnbPolicy from "../../assets/airbnbPP.png";
-const imageURL = "http://localhost:4000/uploads";
-
+import hostImage from "../../assets/host-image.avif";
 
 const ListingHost = ({selectedLocation}) => {
   return (
@@ -12,8 +11,8 @@ const ListingHost = ({selectedLocation}) => {
       <div className="mx-5 mt-5">
         <div className="flex gap-6 items-center">
           <img
-            src={`${imageURL}/${selectedLocation.images[0]}`}
-            alt=""
+            src={hostImage}
+            alt="host-image"
             className="object-cover h-10 w-10 rounded-full"
           />
           <div className="flex items-start flex-col">

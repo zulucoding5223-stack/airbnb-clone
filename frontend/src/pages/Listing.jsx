@@ -20,22 +20,18 @@ const Listing = () => {
   const { locations, isLoading, setIsLoading } = useContext(AppContext);
   const [selectedLocation, setSelectedLocation] = useState(null);
 
-  console.log(locations);
-
   useEffect(() => {
     if (locations.length > 0) {
       const foundLocation = locations.find(
         (location) => `:${location._id}` === listingId
       );
       setSelectedLocation(foundLocation);
-      console.log(foundLocation);
+
       setIsLoading(false);
-    } else{
+    } else {
       setIsLoading(true);
     }
   }, [locations, listingId]);
-
-  console.log("selected location: ", selectedLocation);
 
   const imageURL = "http://localhost:4000/uploads";
 
@@ -43,7 +39,9 @@ const Listing = () => {
     <div>
       <Navbar />
       {isLoading || !selectedLocation ? (
-        <div className="text-center font-bold text-xl mt-5 mb-2">Loading...</div>
+        <div className="text-center font-bold text-xl mt-5 mb-2">
+          Loading...
+        </div>
       ) : (
         <div>
           <div className="px-33">
@@ -55,9 +53,8 @@ const Listing = () => {
                 <div className="flex items-center">
                   <IoStarSharp color="gray" />
                   <p className="text-gray-500 ml-1">
-                    {selectedLocation.ratings} (
-                    {selectedLocation.reviews.length}) reviews -{" "}
-                    {selectedLocation.location}
+                    {selectedLocation.ratings} ({selectedLocation.reviews})
+                    reviews - {selectedLocation.location}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -69,20 +66,23 @@ const Listing = () => {
               </div>
               <div>
                 <div className="flex">
-                  <img
-                    className="rounded-lg object-cover w-140 h-80 mr-2"
-                    src={`${imageURL}/${selectedLocation.images[0]}`}
-                    alt=""
-                  />
-                  <div className="w-115 grid grid-cols-2 gap-2">
-                    {selectedLocation.images.slice(0).map((img, index) => {
+                  <div className="w-140 h-100">
+                    <img
+                      className="rounded-lg object-cover w-full h-full mr-2"
+                      src={`${imageURL}/${selectedLocation.images[0]}`}
+                      alt=""
+                    />
+                  </div>
+                  <div className="w-115 grid grid-cols-2 gap-2 ml-2">
+                    {selectedLocation.images.slice(1).map((img, index) => {
                       return (
-                        <img
-                          key={index}
-                          className="rounded-lg object-cover w-full h-full"
-                          src={`${imageURL}/${img}`}
-                          alt=""
-                        />
+                        <div key={index} className="w-54 h-49">
+                          <img
+                            className="rounded-lg object-cover w-full h-full"
+                            src={`${imageURL}/${img}`}
+                            alt=""
+                          />
+                        </div>
                       );
                     })}
                   </div>
@@ -93,11 +93,11 @@ const Listing = () => {
                 </div>
                 <div className="pt-3">
                   <h2 className="font-bold text-xl">Where You'll Sleep</h2>
-                  <div className="w-65 mt-5">
+                  <div className="w-65 mt-5 h-60">
                     <img
                       src={`${imageURL}/${selectedLocation.images[0]}`}
                       alt=""
-                      className="object-center w-fit rounded-xl"
+                      className="object-center w-full h-full rounded-xl"
                     />
                   </div>
                   <p className="text-xs text-gray-500 pt-1">

@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import AdminNavLinks from '../components/AdminNavLinks'
-import AdminForm from '../components/AdminForm'
+import AdminNavLinks from '../components/adminComponents/AdminNavLinks'
+import AdminForm from '../components/adminComponents/AdminForm'
 
 const CreateListing = () => {
   return (

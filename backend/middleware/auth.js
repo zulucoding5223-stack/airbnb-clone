@@ -7,7 +7,7 @@ export const auth = (req, res, next) => {
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(404).json({
         success: false,
-        message: "Not authorized. Please login.",
+        message: "Please login.",
       });
     }
 

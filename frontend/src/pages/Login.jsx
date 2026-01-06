@@ -12,21 +12,26 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const response = await api.post("/users/login", { username, password });
-      console.log(response);
 
       loginState(response.data.user, response.data.token);
 
-      alert(`${response.data.user.role} logged in successfully`);
+      const role = response.data.user.role;
 
-      response.data.user.role === "user"
-        ? navigate("/locations")
-        : navigate("/admin/dashboard");
+      alert(`${role} logged in successfully`);
+
+      if (role === "host" || role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/locations");
+      }
     } catch (error) {
-      alert(error.response.data.message);
+      alert(error.response?.data?.message || "Failed to login.");
     }
   };
+
   return (
     <div className="pr-4">
       <Navbar />

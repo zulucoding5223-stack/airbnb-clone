@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BsHouseDoor, BsStars } from "react-icons/bs";
 import { MdOutlineDoorFront } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
-const imageURL = "http://localhost:4000/uploads";
+import { AppContext } from "../../utils/AppContextProvider";
+import hostImage from "../../assets/host-image.avif";
 
 const ListingHouseDetails = ({ selectedLocation }) => {
+  const { user } = useContext(AppContext);
   return (
     <div className="h-100">
       <div>
@@ -18,9 +20,9 @@ const ListingHouseDetails = ({ selectedLocation }) => {
             bathrooms
           </p>
           <img
-            src={`${imageURL}/${selectedLocation.images[0]}`}
-            alt=""
-            className="object-cover h-10 w-10 rounded-full absolute z-10 top-0 left-142"
+            src={hostImage}
+            alt="host-image"
+            className="object-cover h-12 w-12 rounded-full absolute z-10 top-0 left-138"
           />
         </div>
         <div>
@@ -33,29 +35,35 @@ const ListingHouseDetails = ({ selectedLocation }) => {
               You'll have the {selectedLocation.type.toLowerCase()} for yourself
             </p>
           </div>
-          {selectedLocation.enhancedCleaning && (
-            <div className="mt-3">
-              <div className="flex items-center gap-2 text-sm font-bold">
-                <BsStars size="1.5em" />
-                <p>Enhanced Cleaning:</p>
-              </div>
-              <p className="text-xs text-gray-500 mt-1.5 ml-7.5">
-                This Host committed to Airbnb's 5-step enhanced cleaning
-                process.
+
+          <div className="mt-3">
+            <div className="flex items-center gap-2 text-sm font-bold">
+              <BsStars size="1.5em" />
+              <p>
+                {selectedLocation.enhancedCleaning
+                  ? "Enhanced Cleaning"
+                  : "No Enhanced Cleaning"}
               </p>
             </div>
-          )}
-          {selectedLocation.selfCheckIn && (
-            <div className="mt-3">
-              <div className="flex items-center gap-2 text-sm font-bold">
-                <MdOutlineDoorFront size="1.5em" />
-                <p>Self Check-in:</p>
-              </div>
-              <p className="text-xs text-gray-500 mt-1.5 ml-7.5">
-                Check yourself in with the keypad
+            <p className="text-xs text-gray-500 mt-1.5 ml-7.5">
+              This Host committed to Airbnb's 5-step enhanced cleaning process.
+            </p>
+          </div>
+
+          <div className="mt-3">
+            <div className="flex items-center gap-2 text-sm font-bold">
+              <MdOutlineDoorFront size="1.5em" />
+              <p>
+                {selectedLocation.selfCheckIn
+                  ? "Self Check-in:"
+                  : "No Self Check-in"}
               </p>
             </div>
-          )}
+            <p className="text-xs text-gray-500 mt-1.5 ml-7.5">
+              Check yourself in with the keypad
+            </p>
+          </div>
+
           <div className="mt-3">
             <div className="flex items-center gap-2 text-sm font-bold">
               <SlCalender size="1.5em" />

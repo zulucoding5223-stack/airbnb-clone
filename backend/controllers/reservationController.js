@@ -2,10 +2,12 @@ import listingModel from "../models/listingSchema.js";
 import reservationModel from "../models/reservationSchema.js";
 import userModel from "../models/userSchema.js";
 
+/* ================= CREATE RESERVATION ================= */
 export const createReservation = async (req, res) => {
   try {
     const userId = req.user.id;
     const user = await userModel.findById(userId);
+
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -13,7 +15,8 @@ export const createReservation = async (req, res) => {
       });
     }
 
-    const {listingId} = req.body;
+    const { listingId, checkIn, checkOut } = req.body;
+
     const listing = await listingModel.findById(listingId);
     if (!listing) {
       return res.status(404).json({
@@ -22,12 +25,10 @@ export const createReservation = async (req, res) => {
       });
     }
 
-    const { checkIn, checkOut } = req.body;
-
     if (!checkIn || !checkOut) {
       return res.status(403).json({
         success: false,
-        message: "No checkIn and checkOut dates.",
+        message: "Check-in and check-out dates are required.",
       });
     }
 
@@ -41,14 +42,11 @@ export const createReservation = async (req, res) => {
       checkOut: new Date(checkOut),
     });
 
-    await newReservation.save();
-
     return res.status(201).json({
       success: true,
-      newReservation,
+      reservation: newReservation,
     });
-  } catch (error) {
-    console.log(error.message);
+  } catch {
     return res.status(500).json({
       success: false,
       message: "Internal server error when creating a reservation.",
@@ -56,10 +54,12 @@ export const createReservation = async (req, res) => {
   }
 };
 
+/* ================= USER RESERVATIONS ================= */
 export const getUserReservations = async (req, res) => {
   try {
     const userId = req.user.id;
     const user = await userModel.findById(userId);
+
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -73,8 +73,7 @@ export const getUserReservations = async (req, res) => {
       success: true,
       reservations,
     });
-  } catch (error) {
-    console.log(error.message);
+  } catch {
     return res.status(500).json({
       success: false,
       message: "Internal server error when fetching your reservations.",
@@ -82,10 +81,12 @@ export const getUserReservations = async (req, res) => {
   }
 };
 
+/* ================= HOST CLIENT RESERVATIONS ================= */
 export const getClientsReservations = async (req, res) => {
   try {
     const hostId = req.user.id;
     const host = await userModel.findById(hostId);
+
     if (!host) {
       return res.status(404).json({
         success: false,
@@ -93,24 +94,28 @@ export const getClientsReservations = async (req, res) => {
       });
     }
 
-    const clientsReservations = await reservationModel.find({ host: hostId });
+    const clientsReservations = await reservationModel.find({
+      host: hostId,
+    });
 
     return res.status(200).json({
       success: true,
       clientsReservations,
     });
-  } catch (error) {
-    console.log(error.message);
+  } catch {
     return res.status(500).json({
       success: false,
       message: "Internal server error when loading clients reservations.",
     });
   }
 };
+
+/* ================= DELETE USER RESERVATION ================= */
 export const deleteUserReservation = async (req, res) => {
   try {
     const userId = req.user.id;
     const user = await userModel.findById(userId);
+
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -120,14 +125,28 @@ export const deleteUserReservation = async (req, res) => {
 
     const { reservationId } = req.params;
 
+    const reservation = await reservationModel.findById(reservationId);
+    if (!reservation) {
+      return res.status(404).json({
+        success: false,
+        message: "Reservation not found.",
+      });
+    }
+
+    if (String(reservation.user) !== userId) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to delete this reservation.",
+      });
+    }
+
     await reservationModel.findByIdAndDelete(reservationId);
 
     return res.status(200).json({
       success: true,
-      message: "reservation successfully deleted.",
+      message: "Reservation successfully deleted.",
     });
-  } catch (error) {
-    console.log(error.message);
+  } catch {
     return res.status(500).json({
       success: false,
       message: "Internal server error when deleting your reservation.",
@@ -135,10 +154,12 @@ export const deleteUserReservation = async (req, res) => {
   }
 };
 
+/* ================= DELETE CLIENT RESERVATION (HOST) ================= */
 export const deleteClientsReservation = async (req, res) => {
   try {
     const hostId = req.user.id;
     const host = await userModel.findById(hostId);
+
     if (!host) {
       return res.status(404).json({
         success: false,
@@ -148,17 +169,31 @@ export const deleteClientsReservation = async (req, res) => {
 
     const { reservationId } = req.params;
 
+    const reservation = await reservationModel.findById(reservationId);
+    if (!reservation) {
+      return res.status(404).json({
+        success: false,
+        message: "Reservation not found.",
+      });
+    }
+
+    if (String(reservation.host) !== hostId) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to delete this reservation.",
+      });
+    }
+
     await reservationModel.findByIdAndDelete(reservationId);
 
     return res.status(200).json({
       success: true,
-      message: "reservation successfully deleted.",
+      message: "Reservation successfully deleted.",
     });
-  } catch (error) {
-    console.log(error.message);
+  } catch {
     return res.status(500).json({
       success: false,
-      message: "Internal server error when deleting your reservation.",
+      message: "Internal server error when deleting reservation.",
     });
   }
 };

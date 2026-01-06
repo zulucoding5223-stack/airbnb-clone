@@ -1,37 +1,50 @@
 import express from "express";
 import "dotenv/config";
 import cors from "cors";
+import helmet from "helmet";
+import path from "path";
+import { fileURLToPath } from "url";
+
 import connectDB from "./config/mongodb.js";
 import userRouter from "./routes/userRoutes.js";
 import listingRouter from "./routes/listingRoutes.js";
 import reservationRouter from "./routes/reservationRoutes.js";
 
 const app = express();
-const port = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+/* ================= STATIC FILES ================= */
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+/* ================= MIDDLEWARE ================= */
 app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
   })
 );
+
+app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/uploads", express.static("uploads"));
+
+/* ================= ROUTES ================= */
 app.use("/users", userRouter);
 app.use("/listings", listingRouter);
 app.use("/reservations", reservationRouter);
 
+/* ================= SERVER START ================= */
 const startServer = async () => {
-  console.log("Connecting to Database...");
   try {
     await connectDB();
-
-    app.listen(port, () => {
-      console.log(`server runnning on port:${port}`);
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error("Server has some errors: ", error.message);
+    console.error("Failed to start server:", error.message);
     process.exit(1);
   }
 };

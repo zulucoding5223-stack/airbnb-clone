@@ -15,12 +15,19 @@ const storage = multer.diskStorage({
   },
 });
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype == "image/png" || file.mimetype == "image/jpeg") {
+  const allowedTypes = [
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "image/webp",
+    "image/avif",
+  ];
+  if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    req.errorMessage = "File is not a vali image";
+    req.errorMessage = "File is not a valid image";
     cb(null, false);
   }
 };
 
-export const upload = multer({storage, fileFilter});
+export const upload = multer({ storage, fileFilter });

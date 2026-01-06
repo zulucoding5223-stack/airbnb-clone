@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../utils/axios";
 import Navbar from "../components/Navbar";
-import AdminNavLinks from "../components/AdminNavLinks";
-import AdminForm from "../components/AdminForm";
+import AdminNavLinks from "../components/adminComponents/AdminNavLinks";
+import AdminForm from "../components/adminComponents/AdminForm";
 
 const UpdateListing = () => {
   const { listingId } = useParams();
