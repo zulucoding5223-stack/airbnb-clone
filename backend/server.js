@@ -21,7 +21,12 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* ================= MIDDLEWARE ================= */
 app.use(
-  cors()
+  cors({
+    origin:[
+      "https://zulu-air-bnb-clone.netlify.app"
+    ],
+    credentials: true,
+  })
 );
 
 app.use(helmet());
