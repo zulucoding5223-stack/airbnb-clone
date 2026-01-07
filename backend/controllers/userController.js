@@ -6,7 +6,7 @@ export const loginUser = async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
         message: "Please fill in all fields. (email, password)",
       });

@@ -11,7 +11,7 @@ import listingRouter from "./routes/listingRoutes.js";
 import reservationRouter from "./routes/reservationRoutes.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,6 +32,9 @@ app.use(express.json());
 app.use("/users", userRouter);
 app.use("/listings", listingRouter);
 app.use("/reservations", reservationRouter);
+app.use('/', (req, res)=>{
+  res.send('Api is running.')
+})
 
 /* ================= SERVER START ================= */
 const startServer = async () => {
