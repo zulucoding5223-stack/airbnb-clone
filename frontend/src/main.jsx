@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import AppContextProvider from "./utils/AppContextProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
+  <BrowserRouter basename="/airbnb-clone">
     <AppContextProvider>
       <App />
     </AppContextProvider>
