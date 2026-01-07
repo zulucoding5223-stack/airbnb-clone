@@ -8,8 +8,9 @@ import InspirationHomeComponent from '../components/homepageComponents/Inspirati
 import DiscoverHomeComponent from '../components/homepageComponents/DiscoverHomeComponent';
 import BnbGiftCards from '../components/homepageComponents/BnbGiftCards';
 import QuestionsHomepage from '../components/homepageComponents/QuestionsHomepage';
-import Inspirations from '../components/homepageComponents/Inspirations';
+
 import Footer from '../components/Footer';
+import Inspirations from '../components/homepageComponents/Inspirations';
 
 const Homepage = () => {
   return (
