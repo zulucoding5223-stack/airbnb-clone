@@ -23,7 +23,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(
   cors({
     origin:[
-      "https://zulu-air-bnb-clone.netlify.app"
+      "https://zulucoding5223-stack.github.io"
     ],
     credentials: true,
   })
