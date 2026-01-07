@@ -8,7 +8,7 @@ export default defineConfig({
     tailwindcss(),
     
   ],
-  base: './'
+  base: '/airbnb-clone/'
 })
 
 
