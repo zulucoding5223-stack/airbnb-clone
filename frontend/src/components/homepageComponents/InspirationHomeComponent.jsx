@@ -3,7 +3,7 @@ import { AppContext } from "../../utils/AppContextProvider";
 
 const InspirationHomeComponent = () => {
   const { locations } = useContext(AppContext);
-  const imageURL = "http://localhost:4000/uploads";
+  const imageURL = import.meta.env.VITE_API_BASE_URL;
 
   return (
     <div className="px-10 pt-10 pb-8">
@@ -20,7 +20,7 @@ const InspirationHomeComponent = () => {
               <img
                 src={
                   location.images?.length
-                    ? `${imageURL}/${location.images[0]}`
+                    ? `${imageURL}/uploads/${location.images[0]}`
                     : "/placeholder.png"
                 }
                 alt=""

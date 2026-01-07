@@ -33,7 +33,7 @@ const Listing = () => {
     }
   }, [locations, listingId]);
 
-  const imageURL = "http://localhost:4000/uploads";
+  const imageURL = import.meta.env.VITE_API_BASE_URL;
 
   return (
     <div>
@@ -69,7 +69,7 @@ const Listing = () => {
                   <div className="w-140 h-100">
                     <img
                       className="rounded-lg object-cover w-full h-full mr-2"
-                      src={`${imageURL}/${selectedLocation.images[0]}`}
+                      src={`${imageURL}/uploads/${selectedLocation.images[0]}`}
                       alt=""
                     />
                   </div>
@@ -79,7 +79,7 @@ const Listing = () => {
                         <div key={index} className="w-54 h-49">
                           <img
                             className="rounded-lg object-cover w-full h-full"
-                            src={`${imageURL}/${img}`}
+                            src={`${imageURL}/uploads/${img}`}
                             alt=""
                           />
                         </div>
@@ -95,7 +95,7 @@ const Listing = () => {
                   <h2 className="font-bold text-xl">Where You'll Sleep</h2>
                   <div className="w-65 mt-5 h-60">
                     <img
-                      src={`${imageURL}/${selectedLocation.images[0]}`}
+                      src={`${imageURL}/uploads/${selectedLocation.images[0]}`}
                       alt=""
                       className="object-center w-full h-full rounded-xl"
                     />

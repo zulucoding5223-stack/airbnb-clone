@@ -18,7 +18,7 @@ const AdminDashboard = () => {
     }
   }, [locations]);
 
-  const imageURL = "http://localhost:4000/uploads";
+  const imageURL = import.meta.env.VITE_API_BASE_URL;
 
   const handleDeleteListing = async (listingId) => {
     try {
@@ -60,7 +60,7 @@ const AdminDashboard = () => {
                   <img
                     src={
                       listing?.images?.length > 0
-                        ? `${imageURL}/${listing.images[0]}`
+                        ? `${imageURL}/uploads/${listing.images[0]}`
                         : "/placeholder.png"
                     }
                     alt={listing?.title || "Listing"}

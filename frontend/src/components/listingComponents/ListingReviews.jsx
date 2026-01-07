@@ -1,6 +1,5 @@
 import React from "react";
 import { IoStarSharp } from "react-icons/io5";
-const imageURL = "http://localhost:4000/uploads";
 import reviewsOne from '../../assets/reviews-1.webp';
 import reviewsTwo from '../../assets/reviews-2.webp';
 import reviewsThree from '../../assets/reviews-3.webp';
