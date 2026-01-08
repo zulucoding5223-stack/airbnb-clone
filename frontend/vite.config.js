@@ -7,8 +7,7 @@ export default defineConfig({
   plugins: [react(),
     tailwindcss(),
     
-  ],
-  base: '/airbnb-clone/'
+  ]
 })
 
 
